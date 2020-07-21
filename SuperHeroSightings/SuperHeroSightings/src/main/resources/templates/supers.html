@@ -1,0 +1,131 @@
+<!doctype html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+            <title>Supers</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row m-4">
+                <div class="col text-center border border-dark">
+                    <h1>Supers</h1>
+                </div>
+            </div>
+            <div class="row m-4 border border-dark">
+                <div class="col text-center m-3">
+                    <a href="/" class="btn btn-outline-primary btn-lg">Home</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="supers" class="btn btn-outline-primary btn-lg">Supers</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="organizations" class="btn btn-outline-primary btn-lg">Organizations</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="sightings" class="btn btn-outline-primary btn-lg">Sightings</a>
+                </div>
+                <div class="col text-center m-3">
+                    <a href="locations" class="btn btn-outline-primary btn-lg">Locations</a>
+                </div>
+            </div>
+            <div class="row m-4 border border-dark">
+                <div class="col-3 test-center m-3">
+                    <span class="h3">New Super</span>
+                </div>
+                <div class="col-7 text-center m-3">
+                    <form action="addSuper" method="POST">
+                        <div class="form-group row">
+                            <label for="name" class="col-3 col-form-label">    
+                                Name</label>
+                            <div class="col-9">
+                                <input type="text" name="name"
+                                       id="name" class="form-control"/>  
+                                <div th:if="${#fields.hasErrors('supers.name')}">
+                                    <p th:each="error : ${#fields.errors('supers.name')}" class="alert alert-danger"
+                                       th:text="${error}">Bad name</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="hero" class="col-3 col-form-label">    
+                                Hero or Villain</label>
+                            <div class="col-9">
+                                <input type="radio" name="hero" value="true" checked/>Hero
+                                <input type="radio" name="hero" value="false"/>Villain<br /><br />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="superPower" class="col-3 col-form-label">
+                                Super Power</label>
+                            <div class="col-9">
+                                <input type="text" name="superPower"
+                                       id="superPower" class="form-control"/>
+                                <div th:if="${#fields.hasErrors('supers.superPower')}">
+                                    <p th:each="error : ${#fields.errors('supers.superPower')}" class="alert alert-danger"
+                                       th:text="${error}">Bad Super Power</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="description" class="col-3 col-form-label">
+                                Description</label>
+                            <div class="col-9">
+                                <input type="text" name="description"
+                                       id="description" class="form-control"/>
+                                <div th:if="${#fields.hasErrors('supers.description')}">
+                                    <p th:each="error : ${#fields.errors('supers.description')}" class="alert alert-danger"
+                                       th:text="${error}">Bad Description</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Super</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row m-4 border border-dark">
+                <div class="col text-center m-3">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Hero or Villain</th>
+                                <th>Super Power</th>
+                                <th>Description</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="supers : ${supersList}">
+                                <td th:text="${supers.id}">Super ID</td>
+                                <td th:text="${supers.name}">Name</td>
+                                <td th:unless="${supers.hero}">Villain</td>
+                                <td th:if="${supers.hero}">Hero</td>
+                                <td th:text="${supers.superPower}">Super Power</td>
+                                <td th:text="${supers.description}">Description</td>
+                                <td><a hreft="#" th:href="@{/editSuper(id=${supers.id})}">edit</a></td>
+                                <td><a href="#" th:href="@{/deleteSuper(id=${supers.id})}">Delete</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div> 
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </body>
+</html>
